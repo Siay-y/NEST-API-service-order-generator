@@ -1,0 +1,29 @@
+version: '1.0'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "C7q=0of4!61`"
+      MYSQL_DATABASE: ordem_servico_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  nestjs:
+    build: .
+    container_name: nestjs
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+    command: npm run start:dev
+
+volumes:
+  mysql_data:
